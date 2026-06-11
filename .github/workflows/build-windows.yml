@@ -1,1 +1,14 @@
-name: Build Windows simulator\n\non:\n  push:\n    branches: [ main ]\n  workflow_dispatch:\n\njobs:\n  build-windows:\n    runs-on: windows-latest\n    steps:\n      - uses: actions/checkout@v4\n      - name: Set up MSYS2\n        uses: msys2/setup-msys2@v2\n        with:\n          msystem: MINGW64\n      - name: Install g++\n        run: pacman -S --noconfirm mingw-w64-x86_64-gcc\n      - name: Build simulator\n        run: g++ -O2 -std=c++17 -o src\\simulator\\simulate.exe src\\simulator\\main.cpp\n      - name: Commit binary\n        run: |\n          git config user.name "github-actions[bot]"\n          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"\n          git add src/simulator/simulate.exe\n          git commit -m "Add built Windows binary (CI)" || echo "No changes to commit"\n          git push origin HEAD:main || echo "Push failed"\n      - name: Upload artifact\n        uses: actions/upload-artifact@v4\n        with:\n          name: simulate-windows\n          path: src/simulator/simulate.exe\n
+name: Build Windows simulator
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test echo
+        run: echo "Windows workflow syntax OK"
