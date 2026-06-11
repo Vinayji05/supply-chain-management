@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS simulation_results (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  run_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  source INT,
+  target INT,
+  cost BIGINT,
+  path TEXT
+);
